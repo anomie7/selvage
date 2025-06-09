@@ -2,19 +2,6 @@ import re
 from dataclasses import dataclass
 
 
-def escape_code_block(text: str) -> str:
-    """코드 블록 내에서 특수 문자를 안전하게 이스케이프 처리합니다.
-
-    Args:
-        text: 이스케이프 처리할 텍스트
-
-    Returns:
-        str: 이스케이프 처리된 텍스트
-    """
-    # 백틱(```)을 제로 너비 공백(\u200b)으로 이스케이프 처리
-    return text.replace("```", "`\u200b``")
-
-
 @dataclass
 class Hunk:
     """Git diff의 hunk를 나타내는 클래스.
@@ -32,21 +19,21 @@ class Hunk:
     start_line_modified: int
     line_count_modified: int
 
-    def get_safe_before_code(self) -> str:
-        """이스케이프 처리된 원본 코드를 반환합니다.
+    def get_before_code(self) -> str:
+        """원본 코드를 반환합니다.
 
         Returns:
-            str: 이스케이프 처리된 원본 코드
+            str: 원본 코드
         """
-        return escape_code_block(self.before_code)
+        return self.before_code
 
-    def get_safe_after_code(self) -> str:
-        """이스케이프 처리된 수정 코드를 반환합니다.
+    def get_after_code(self) -> str:
+        """수정 코드를 반환합니다.
 
         Returns:
-            str: 이스케이프 처리된 수정 코드
+            str: 수정 코드
         """
-        return escape_code_block(self.after_code)
+        return self.after_code
 
     @staticmethod
     def from_hunk_text(hunk_text: str) -> "Hunk":

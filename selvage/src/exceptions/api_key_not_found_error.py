@@ -16,6 +16,6 @@ class APIKeyNotFoundError(LLMGatewayError):
     def __init__(self, provider: "ModelProvider") -> None:
         self.provider = provider
         super().__init__(
-            f"API 키가 제공되지 않았습니다. 'selvage --set-{provider.value}-key your_api_key' 명령을 사용하여 "
+            f"API 키가 제공되지 않았습니다. 'selvage --set-{provider.get_api_key_command_name()}-key' 명령을 사용하여 "
             f"API 키를 설정하세요."
         )

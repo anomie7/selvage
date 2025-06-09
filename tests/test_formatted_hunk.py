@@ -12,8 +12,8 @@ from selvage.src.utils.prompts.models.formatted_hunk import FormattedHunk
 def mock_hunk() -> Hunk:
     """테스트용 Hunk 객체 fixture"""
     hunk = MagicMock(spec=Hunk)
-    hunk.get_safe_before_code.return_value = "before code line1\nbefore code line2"
-    hunk.get_safe_after_code.return_value = (
+    hunk.get_before_code.return_value = "before code line1\nbefore code line2"
+    hunk.get_after_code.return_value = (
         "after code line1\nafter code line2\nafter code line3"
     )
     hunk.start_line_modified = 10
@@ -27,8 +27,8 @@ def test_formatted_hunk_creation(mock_hunk: Hunk):
     language = "python"
 
     # 미리 호출 결과를 저장
-    expected_before_code_str = mock_hunk.get_safe_before_code()
-    expected_after_code_str = mock_hunk.get_safe_after_code()
+    expected_before_code_str = mock_hunk.get_before_code()
+    expected_after_code_str = mock_hunk.get_after_code()
 
     formatted_hunk = FormattedHunk(
         hunk=mock_hunk,
@@ -53,9 +53,9 @@ def test_formatted_hunk_creation(mock_hunk: Hunk):
         )
     )
 
-    # get_safe_before_code와 get_safe_after_code 호출 여부만 확인
-    assert mock_hunk.get_safe_before_code.called
-    assert mock_hunk.get_safe_after_code.called
+    # get_before_code와 get_after_code 호출 여부만 확인
+    assert mock_hunk.get_before_code.called
+    assert mock_hunk.get_after_code.called
 
 
 def test_formatted_hunk_line_numbers(mock_hunk: Hunk):
@@ -69,9 +69,9 @@ def test_formatted_hunk_line_numbers(mock_hunk: Hunk):
 
 
 def test_formatted_hunk_empty_code(mock_hunk: Hunk):
-    """get_safe_before_code 또는 get_safe_after_code가 빈 문자열을 반환할 때의 동작 검증"""
-    mock_hunk.get_safe_before_code.return_value = ""
-    mock_hunk.get_safe_after_code.return_value = "single line"
+    """get_before_code 또는 get_after_code가 빈 문자열을 반환할 때의 동작 검증"""
+    mock_hunk.get_before_code.return_value = ""
+    mock_hunk.get_after_code.return_value = "single line"
     mock_hunk.start_line_modified = 1
     mock_hunk.line_count_modified = 1
     language = "text"

@@ -29,8 +29,8 @@ class FormattedHunk:
             language: 코드 언어
         """
         self.hunk_idx = str(hunk_idx + 1)
-        self.before_code = f"```{language}\n{hunk.get_safe_before_code()}\n```"
-        self.after_code = f"```{language}\n{hunk.get_safe_after_code()}\n```"
+        self.before_code = f"```{language}\n{hunk.get_before_code()}\n```"
+        self.after_code = f"```{language}\n{hunk.get_after_code()}\n```"
         self.after_code_start_line_number = hunk.start_line_modified
         self.after_code_line_numbers = list(
             range(
